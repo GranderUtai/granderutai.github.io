@@ -1,1 +1,26 @@
+<head>
+    <title>REDXHOST:7272</title>
+    <link rel="icon" href="images/redxicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
 
+<body id="redbody">
+    <h1 id="fancy">WE ARE THE REDLINGS.</h1>
+    <p>feed us honey spread</p>
+    <p><span id="tp">jan jan li jan poka</span></p>
+
+
+<script>
+    let interval = 0.25 *1000
+    let syms = ['|', '/', '-', '\\']
+    let counter = 0
+    let ogtitle = document.title
+    setInterval(() => {
+        if (counter > syms.length) {
+            counter = 0;
+        }
+        document.title = `${syms[counter]}${ogtitle}${syms[counter]}`;
+        counter++;
+    }, interval);
+</script>
+</body>
