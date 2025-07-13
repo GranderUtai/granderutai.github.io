@@ -11,10 +11,10 @@
 
 
 <script>
-    let interval = 0.25 *1000
-    let syms = ['|', '/', '-', '\\']
+    const interval = 0.25 *1000
+    const syms = ['|', '/', '-', '\\']
     let counter = 0
-    let ogtitle = document.title
+    const ogtitle = document.title
     setInterval(() => {
         if (counter > syms.length) {
             counter = 0;
