@@ -16,7 +16,7 @@
     let counter = 0
     const ogtitle = document.title
     setInterval(() => {
-        if (counter > syms.length) {
+        if (counter > syms.length-1) {
             counter = 0;
         }
         document.title = `${syms[counter]}${ogtitle}${syms[counter]}`;
