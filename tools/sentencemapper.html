@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>sentence mapper</title>
+   <style>
+    /* CSS для минимального макета */
+    #inputcontainer {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+      horiz-align: center;
+    }
+    input, .result-area {
+      horiz-align: center;
+    }
+
+    #lang-a-display {
+      margin-bottom: 75px;
+    }
+    /* Контейнер для рендеринга */
+    #render-output {
+      position: relative; /* Создаем контекст для абсолютного позиционирования SVG */
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 400px; /* Достаточно места для текста и линий */
+    }
+
+    #language-line {
+      display: flex; /* Используем Flexbox для размещения слов в строке */
+      margin: 20px 0 100px;
+      line-height: 1.5;
+    }
+
+    /* Стили для слов, которые будут соединяться */
+    #token {
+      padding: 2px 4px;
+      margin: 0 1px;
+      display: inline-block; /* Токены должны быть строчными элементами */
+      cursor: default;
+    }
+
+    /* SVG для рисования линий - должен быть поверх всего */
+    #connection-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Важно: чтобы SVG не блокировал клики по тексту */
+    }
+  </style>
+</head>
+<body>
+<h1>sentence mapper</h1>
+<p>put text in the textboxes in the format [id word], if you dont want it to be connected then write it without the brackets and the id</p>
+<div class="inputcontainer">
+  <div class="input">
+    <h3>lang a</h3>
+    <textarea id="text-a" rows="1"></textarea>
+  </div>
+  <div class="input">
+    <h3>lang b</h3>
+    <textarea id="text-b" rows="1"></textarea>
+  </div>
+</div>
+
+<button onclick="renderConnections()">render</button>
+
+<div id="render-output">
+  <svg id="connection-svg"></svg>
+  <div id="lang-a-display"></div>
+  <div id="lang-b-display"></div>
+</div>
+
+<script>
+  document.getElementById('text-a').value = "[1 a] [2 b] [3 c], [4 g]!"
+  document.getElementById('text-b').value = "[1 a] [2 b][4 g], [3 c]!"
+  let colors = [];
+
+  function getRandomColor() {
+    const min = 100
+    const max = 200
+    const r = Math.floor(Math.random() * (max - min) + min);
+    const g = Math.floor(Math.random() * (max - min) + min);
+    const b = Math.floor(Math.random() * (max - min) + min);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+  /**
+   * Функция для парсинга текста и создания списка токенов и нетронутого текста.
+   * @param {string} text - Исходный текст из textarea.
+   * @returns {Array<{type: string, id?: number, text: string}>} - Структурированный массив.
+   */
+
+  function parseInput(text) {
+    const regex = /\[(\d+)\s(.*?)]/g;
+    let parts = [];
+    let lastIndex = 0;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const fullMatch = match[0];
+      const id = parseInt(match[1], 10);
+      const word = match[2];
+      if (match.index > lastIndex) {
+        const rawText = text.substring(lastIndex, match.index);
+        if (rawText.trim().length > 0) {
+          parts.push({type: 'text', text: rawText});
+        } else if (rawText.length > 0) {
+          parts.push({type: 'whitespace', text: rawText});
+        }
+      }
+
+      // 2. Добавляем токен (слово с ID)
+      parts.push({type: 'token', id: id, text: word});
+      if (!colors[id]) {
+        colors[id] = getRandomColor();
+      }
+
+      // Обновляем индекс для следующего поиска
+      lastIndex = match.index + fullMatch.length;
+    }
+
+    // 3. Добавляем оставшийся нетронутый текст в конце
+    if (lastIndex < text.length) {
+      const rawText = text.substring(lastIndex);
+      if (rawText.trim().length > 0) {
+        parts.push({ type: 'text', text: rawText });
+      } else if (rawText.length > 0) {
+        parts.push({ type: 'whitespace', text: rawText });
+      }
+    }
+    console.log(parts)
+    console.log(colors)
+    return parts;
+  }
+
+  // Глобальный объект для хранения токенов и их координат (нужно для перерисовки)
+  let allTokens = { 'langA': [], 'langB': [] };
+
+  function renderConnections() {
+    const textA = document.getElementById('text-a').value;
+    const textB = document.getElementById('text-b').value;
+
+    const partsA = parseInput(textA);
+    const partsB = parseInput(textB);
+
+    // Очищаем предыдущий вывод
+    const outputDivA = document.getElementById('lang-a-display');
+    const outputDivB = document.getElementById('lang-b-display');
+    const svg = document.getElementById('connection-svg');
+    outputDivA.innerHTML = '<div class="language-line"></div>'; // Важно для Flexbox
+    outputDivB.innerHTML = '<div class="language-line"></div>'; // Важно для Flexbox
+    svg.innerHTML = '';
+
+    allTokens = { 'langA': [], 'langB': [] }; // Сброс глобального хранилища
+
+    // 1. Отображение текста (создание HTML-элементов)
+    displayParsedText(partsA, outputDivA.querySelector('.language-line'), 'langA');
+    displayParsedText(partsB, outputDivB.querySelector('.language-line'), 'langB');
+
+    // 2. Рисование линий
+    // Мы должны дождаться, пока браузер отрисует элементы, чтобы получить их координаты
+    // Используем setTimeout(..., 0) для гарантии, что DOM обновлен
+    setTimeout(() => {
+      drawLines();
+    }, 0);
+  }
+
+  /**
+   * Создает HTML-элементы для отображения парсинга.
+   */
+  function displayParsedText(parts, parentElement, langId) {
+    parts.forEach((part, index) => {
+      if (part.type === 'token') {
+        const span = document.createElement('span');
+        span.className = 'token';
+        span.textContent = part.text;
+        span.style = `color = ${colors[part.id]}`
+        // Уникальный ID для этого span, чтобы его можно было найти
+        span.dataset.id = part.id;
+        span.dataset.lang = langId;
+        parentElement.appendChild(span);
+
+        // Сохраняем элемент в глобальном хранилище
+        allTokens[langId].push(span);
+
+      } else if (part.type === 'text' || part.type === 'whitespace') {
+        const span = document.createElement('span');
+        span.textContent = part.text;
+        parentElement.appendChild(span);
+      }
+    });
+  }
+
+  /**
+   * Получает координаты и рисует линии в SVG.
+   */
+  function drawLines() {
+    const svg = document.getElementById('connection-svg');
+    const svgRect = svg.getBoundingClientRect();
+    const uniqueIds = new Set();
+    // 1. Собираем все уникальные ID
+    allTokens['langA'].forEach(el => uniqueIds.add(el.dataset.id));
+    allTokens['langB'].forEach(el => uniqueIds.add(el.dataset.id));
+
+    // 2. Для каждого ID рисуем соединения
+    uniqueIds.forEach(id => {
+      const tokensA = allTokens['langA'].filter(el => el.dataset.id === id);
+      const tokensB = allTokens['langB'].filter(el => el.dataset.id === id);
+
+      // Раскрашиваем слова
+      tokensA.forEach(el => el.style.color = colors[el.dataset.id]);
+      tokensB.forEach(el => el.style.color = colors[el.dataset.id]);
+
+      // Соединяем все токены из A со всеми токенами из B
+      tokensA.forEach(tokenA => {
+        const rectA = tokenA.getBoundingClientRect();
+
+        // Координаты центра нижней части токена A
+        const startX = rectA.left + rectA.width / 2 - svgRect.left;
+        const startY = rectA.bottom - svgRect.top;
+
+        tokensB.forEach(tokenB => {
+          const rectB = tokenB.getBoundingClientRect();
+
+          // Координаты центра верхней части токена B
+          const endX = rectB.left + rectB.width / 2 - svgRect.left;
+          const endY = rectB.top - svgRect.top;
+
+          // Рисуем линию (используем <path> для возможного сглаживания, но <line> проще)
+          const line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+          line.setAttribute('x1', startX);
+          line.setAttribute('y1', startY);
+          line.setAttribute('x2', endX);
+          line.setAttribute('y2', endY);
+          line.setAttribute('stroke', colors[tokenA.dataset.id]);
+          line.setAttribute('stroke-width', 2);
+
+          svg.appendChild(line);
+        });
+      });
+    });
+  }
+
+  const areas = [document.getElementById('text-a'), document.getElementById('text-b')]
+  areas.forEach(area => {
+    area.addEventListener("input", () => {
+      renderConnections();
+    });
+  });
+
+  // 3. Добавление адаптивности: перерисовка при изменении размера окна
+  window.addEventListener('resize', () => {
+    // Проверяем, есть ли что-то для рисования
+    if (document.getElementById('text-a').value || document.getElementById('text-b').value) {
+      // Мы вызываем всю функцию заново, это самый простой способ
+      renderConnections();
+    }
+  });
+
+</script>
+</body>
+</html>
