@@ -65,7 +65,7 @@
   </div>
 </div>
 
-<button onclick="renderConnections()">render</button>
+<button onclick="rerollcolors()">reroll colors</button>
 
 <div id="render-output">
   <svg id="connection-svg"></svg>
@@ -92,11 +92,12 @@
    * @returns {Array<{type: string, id?: number, text: string}>} - Структурированный массив.
    */
 
+  let parts = [];
   function parseInput(text) {
     const regex = /\[(\d+)\s(.*?)]/g;
-    let parts = [];
     let lastIndex = 0;
     let match;
+    parts = [];
     while ((match = regex.exec(text)) !== null) {
       const fullMatch = match[0];
       const id = parseInt(match[1], 10);
@@ -165,7 +166,15 @@
       drawLines();
     }, 0);
   }
-
+  function rerollcolors() {
+    colors = []
+    parts.forEach(part => {
+      if (!colors[part.id]) {
+        colors[part.id] = getRandomColor();
+      }
+    })
+    renderConnections()
+  }
   /**
    * Создает HTML-элементы для отображения парсинга.
    */
