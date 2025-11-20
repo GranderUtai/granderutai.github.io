@@ -11,12 +11,12 @@
 
 
 <script>
-    let interval = 0.25 *1000
-    let syms = ['|', '/', '-', '\\']
+    const interval = 0.25 *1000
+    const syms = ['⋮', '⋱', '∴', '⋯', '∵', '⋰']
     let counter = 0
-    let ogtitle = document.title
+    const ogtitle = document.title
     setInterval(() => {
-        if (counter > syms.length) {
+        if (counter > syms.length-1) {
             counter = 0;
         }
         document.title = `${syms[counter]}${ogtitle}${syms[counter]}`;
