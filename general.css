@@ -1,9 +1,13 @@
 body {
-    background-color: rgb(92, 71, 50);
+    background-color: rgb(76, 67, 62);
     color: #dfd9d1
 }
 a {
-    color: #49eaff;
+    color: #31d2f6;
+    font-weight: bold;
+}
+p {
+    font-family: sans-serif;
 }
 #altlink {
     color: #ad60e6;
