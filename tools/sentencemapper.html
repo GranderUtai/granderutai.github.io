@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>sentence mapper</title>
+  <title class="attention">sentence mapper</title>
+  <link href="../general.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
    <style>
-    /* CSS для минимального макета */
-    #inputcontainer {
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 20px;
-      horiz-align: center;
-    }
-    input, .result-area {
+    input{
       horiz-align: center;
     }
 
@@ -25,22 +22,6 @@
       padding: 10px;
       min-height: 400px; /* Достаточно места для текста и линий */
     }
-
-    #language-line {
-      display: flex; /* Используем Flexbox для размещения слов в строке */
-      margin: 20px 0 100px;
-      line-height: 1.5;
-    }
-
-    /* Стили для слов, которые будут соединяться */
-    #token {
-      padding: 2px 4px;
-      margin: 0 1px;
-      display: inline-block; /* Токены должны быть строчными элементами */
-      cursor: default;
-    }
-
-    /* SVG для рисования линий - должен быть поверх всего */
     #connection-svg {
       position: absolute;
       top: 0;
@@ -174,16 +155,17 @@
     })
     renderConnections()
   }
+
   /**
    * Создает HTML-элементы для отображения парсинга.
    */
   function displayParsedText(parts, parentElement, langId) {
-    parts.forEach((part, index) => {
+    parts.forEach((part) => {
       if (part.type === 'token') {
         const span = document.createElement('span');
         span.className = 'token';
         span.textContent = part.text;
-        span.style = `color = ${colors[part.id]}`
+        span.style = `color = ${colors[part.id]}; font-family = sans-serif`
         // Уникальный ID для этого span, чтобы его можно было найти
         span.dataset.id = part.id;
         span.dataset.lang = langId;
