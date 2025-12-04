@@ -8,7 +8,23 @@ a {
 p {
     font-family: sans-serif;
 }
-#altlink {
+.altlink {
     color: #ad60e6;
     background-color: #352816;
+}
+.attention {
+    font-family: "Fugaz One", sans-serif;
+    font-weight: normal;
+}
+.faded {
+    opacity: 50%;
+}
+.hint {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+}
+.project-entry {
+    overflow: auto;
+    margin-bottom: 25px;
 }

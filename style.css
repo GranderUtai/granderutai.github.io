@@ -1,18 +1,18 @@
-#redbody {
+.redbody {
     background-color: #b00000;
     background-image: image-set("images/redx.png");
     background-repeat: repeat;
 }
 
-#fancy {
+.fancy {
     font-family: Jokerman, serif;
     text-align: center;
 }
 
 @font-face {
     font-family: "Nishiki Teki Lili";
-    src: url("./nishiki-teki-lili.ttf") format("truetype");
+    src: url("fonts/NishikiTekiLili.ttf") format("truetype");
 }
-#tp {
+.tp {
     font-family: "Nishiki Teki Lili", serif;
 }
