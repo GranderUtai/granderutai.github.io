@@ -3,7 +3,7 @@
 	<link rel="icon" href="images/fatudinious.png" type="image/png">
 	<link rel="stylesheet" href="general.css">
 	<meta charset="UTF-8">
-
+	<meta lang="en">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
@@ -14,10 +14,13 @@
 	<img src="images/fatudinious.png" alt="fatudinious">
 	<a class="altlink" href="./redxshrine" style="font-size: 10px"><i>CLICK HERE FOR FUN!</i></a>
 	<hr>
-	<h2>links</h2>
+
+	<h2 class="attention">links</h2>
+
 	<p>ordered by COLOR wow i love sorting stuff by color</p>
 	<p>i tried to include as many links as i could even added those that arent even really considered social media or im active in</p>
-	<p style="text-align: center"><b>
+	<div id="extlinks">
+		<p style="text-align: center"><b>
 		<a href="https://tiktok.com/@granderutai" style="color: #fc2c55">tiktok</a>
 		<a href="https://www.youtube.com/@granderutai" style="color: #fd0033">youtube</a>
 		<a href="https://magma.com/artist/granderutai" style="color: #e74244">magma</a>
@@ -38,12 +41,14 @@
 		<a href="https://www.tumblr.com/blog/granderutai" style="color: #7b92b0">tumblr</a>
 		<a href="https://minesweeper.online/player/45206259" style="color: #c0c0c0">minesweeper</a>
 	</b></p>
-	<p><small>honorable mention:
+	</div>
+	<p><small>honorable mentions:
 		<a href="https://lamplight0.sakura.ne.jp/a" style="color: #faf3e1">lamplight</a>
 		<a href="https://missile-mp3.github.io">leo site</a>
 	</small></p>
 	<hr>
-	<h2>my stuff</h2>
+
+	<h2 class="attention">my stuff</h2>
 
 	<div class="project-entry">
 		<a href="tools/sentencemapper"><img src="images/redx.png" height="100" style="float: left; margin-right: 3%" alt="icon"/></a>
@@ -52,14 +57,14 @@
 	</div>
 	<div class="project-entry">
 		<a href="LINK HERE"><img src="images/redx.png" height="100" style="float: left; margin-right: 3%" alt="icon"/></a>
-		<h3><a href="LINK HERE">conlangs documentations</a></h3>
+		<h3><a href="LINK HERE">conlang documentations</a></h3>
 		<p>i have two of them! i dont work on them actively though. they names are Keset <span class="faded">(ʌaꝛo Keseτa)</span> and Zesmaloinian <span class="faded">(ZESMALOINIAN)</span> and they were made with different goals in mind; keset aims to be more logical - since it started off as a tokiponido - and zesmaloinian is more naturalistic (i suck at those though lofmllal)</p>
 		<p>more info in their google sheets. click the flags to go there!</p>
 	</div>
 
 	<script>
-		const allLinks = document.querySelectorAll('a');
-		allLinks.forEach(link => {
+		const externalLinks = document.querySelectorAll('#extlinks a');
+		externalLinks.forEach(link => {
 			link.setAttribute('target', '_blank');
 			link.setAttribute('rel', 'noopener noreferrer');
 		});
