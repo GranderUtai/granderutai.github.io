@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title class="attention">sentence mapper</title>
-  <link href="../general.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
@@ -33,16 +33,16 @@
   </style>
 </head>
 <body>
-<h1>sentence mapper</h1>
+<h1 class="attention">sentence mapper</h1>
 <p>put text in the textboxes in the format [id word], if you dont want it to be connected then write it without the brackets and the id</p>
 <div class="inputcontainer">
   <div class="input">
-    <h3>lang a</h3>
-    <textarea id="text-a" rows="1"></textarea>
+    <h3 class="attention">lang a</h3>
+    <textarea id="text-a" style="width: 75%"></textarea>
   </div>
   <div class="input">
-    <h3>lang b</h3>
-    <textarea id="text-b" rows="1"></textarea>
+    <h3 class="attention">lang b</h3>
+    <textarea id="text-b" style="width: 75%"></textarea>
   </div>
 </div>
 
@@ -50,8 +50,8 @@
 
 <div id="render-output">
   <svg id="connection-svg"></svg>
-  <div id="lang-a-display"></div>
-  <div id="lang-b-display"></div>
+  <div id="lang-a-display" style="font-family: sans-serif; text-align: center"></div>
+  <div id="lang-b-display" style="font-family: sans-serif; text-align: center"></div>
 </div>
 
 <script>

@@ -1,12 +1,15 @@
 body {
     background-color: rgb(60, 53, 49);
-    color: #cac2bd
+    color: #cac2bd;
 }
 a {
-    color: #31d2f6;
+    color: #31d2f6
 }
 p {
-    font-family: sans-serif;
+    font-family: sans-serif
+}
+hr {
+    color: #cac2bd
 }
 .altlink {
     color: #ad60e6;
@@ -17,7 +20,7 @@ p {
     font-weight: normal;
 }
 .faded {
-    opacity: 50%;
+    opacity: 50%
 }
 .hint {
     text-decoration: underline;
