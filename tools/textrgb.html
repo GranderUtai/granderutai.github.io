@@ -32,7 +32,7 @@
     const input = document.getElementById('input');
     const canvas = document.getElementById('dataCanvas');
     const ctx = canvas.getContext('2d');
-    const blockSize = 20;
+    const blockSize = 1;
     function draw() {
         const text = input.value;
         const bytes = Array.from(text).map(char => Math.min(char.charCodeAt(0), 255));
