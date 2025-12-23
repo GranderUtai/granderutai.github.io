@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
     <link href="../styles/main.css" rel="stylesheet"/>
-    <title class="attention">sentence mapper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
 
     <meta charset="UTF-8">
-    <title>RGB Data Encoder</title>
+    <title>text to rgb encoder</title>
     <style>
         textarea { width: 100%; height: 100px; margin-bottom: 20px;}
         #canvas-container { background: white; padding: 10px; border-radius: 8px;}
         canvas { border: 1px solid #ccc; image-rendering: pixelated; }
     </style>
-    <meta name="description" content="my site hello">
+    <!-- <meta name="description" content="my site hello"> -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://granderutai.github.io/">
-    <meta property="og:title" content="grandersite">
-    <meta property="og:description" content="my site hello">
+    <meta property="og:url" content="https://granderutai.github.io/tools/textrgb">
+    <meta property="og:title" content="text to rgb encoder">
+    <meta property="og:description" content="oooooiiii">
     <!-- <meta property="og:image" content="https://granderutai.github.io/images/fatudinious.png"> -->
     <meta name="theme-color" content="#F37700">
 </head>
@@ -33,13 +32,11 @@
     const input = document.getElementById('input');
     const canvas = document.getElementById('dataCanvas');
     const ctx = canvas.getContext('2d');
-    const blockSize = 20; // Size of each square in pixels
-
+    const blockSize = 20;
     function draw() {
         const text = input.value;
         const bytes = Array.from(text).map(char => Math.min(char.charCodeAt(0), 255));
 
-        // Group bytes into triplets for RGB
         const pixels = [];
         for (let i = 0; i < bytes.length; i += 3) {
             pixels.push({
@@ -54,13 +51,11 @@
 
         canvas.width = gridWidth * blockSize;
         canvas.height = gridHeight * blockSize;
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         pixels.forEach((pixel, index) => {
             const x = (index % gridWidth) * blockSize;
             const y = Math.floor(index / gridWidth) * blockSize;
-
             ctx.fillStyle = `rgb(${pixel.r}, ${pixel.g}, ${pixel.b})`;
             ctx.fillRect(x, y, blockSize, blockSize);
         });
